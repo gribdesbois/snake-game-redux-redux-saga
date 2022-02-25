@@ -2,7 +2,7 @@ const GlobalState = {
   data: '',
 }
 
-const gameReduceer = (state = GlobalState, action) => {
+const gameReducer = (state = GlobalState, action) => {
   switch (action.type) {
     case 'MOVE_RIGHT':
       /**
@@ -16,3 +16,5 @@ const gameReduceer = (state = GlobalState, action) => {
       return state
   }
 }
+
+export default gameReducer

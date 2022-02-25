@@ -30,7 +30,6 @@ module.exports = {
       1,
       { extensions: ['.js', '.jsx', '.ts', 'tsx'] },
     ],
-    indent: ['error', 2, { SwitchCase: 1 }],
   },
   plugins: ['react', '@typescript-eslint'],
   extends: [

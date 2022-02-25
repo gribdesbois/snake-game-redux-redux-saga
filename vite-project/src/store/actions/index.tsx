@@ -4,7 +4,7 @@ export const moveRight = () => ({
 })
 
 // With payload
-export const moveRight = (data: string) => ({
+export const moveRightwithPayload = (data: string) => ({
   type: MOVE_RIGHT,
   payload: data,
 })
