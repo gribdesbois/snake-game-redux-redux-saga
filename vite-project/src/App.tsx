@@ -12,6 +12,7 @@ const App = () => {
           <Heading as="h1" size="xl">
             SNAKE GAME
           </Heading>
+          <ScoreCard />
           <CanvasBoard height={600} width={1000} />
         </Container>
       </ChakraProvider>
