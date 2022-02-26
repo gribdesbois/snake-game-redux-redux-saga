@@ -4,19 +4,19 @@ export const clearBoard = (context: CanvasRenderingContext2D | null) => {
   }
 }
 
-export interface IObjectBoby {
+export interface IObjectBody {
   x: number
   y: number
 }
 
 export const drawObject = (
   context: CanvasRenderingContext2D | null,
-  objectBody: IObjectBoby[],
+  objectBody: IObjectBody[],
   fillColor: string,
   strokeStyle = '#146356'
 ) => {
   if (context) {
-    objectBody.forEach((object: IObjectBoby) => {
+    objectBody.forEach((object: IObjectBody) => {
       context.fillStyle = fillColor
       context.strokeStyle = strokeStyle
       context?.fillRect(object.x, object.y, 20, 20)
@@ -24,3 +24,4 @@ export const drawObject = (
     })
   }
 }
+export const generateRandomPosition = (width: number, height: number) => {}
