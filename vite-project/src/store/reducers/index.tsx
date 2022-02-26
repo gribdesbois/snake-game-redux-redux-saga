@@ -24,12 +24,28 @@ const globalState: IGlobalState = {
   disallowedDirection: '',
 }
 
-const gameReducer = (state = GlobalState, action: any) => {
+const gameReducer = (state = globalState, action: any) => {
   switch (action.type) {
     case RIGHT:
     case LEFT:
     case UP:
     case DOWN:
+      {
+        let newSnake = [...state.snake]
+        newSnake = [
+          {
+            x: state.snake[0] + action.payload[0],
+            y: state.snake[0] + action.payload[1],
+          },
+          ...newSnake,
+        ]
+        newSnake.pop()
+
+        return {
+          ...state,
+          snake: newSnake,
+        }
+      }
       /**
        * Perform a certain set of operations
        */
