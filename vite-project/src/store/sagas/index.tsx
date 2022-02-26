@@ -21,15 +21,20 @@ import {
   UP,
 } from '../actions'
 
+//! moveSaga executes inside an infinite loop
+//! Once a direction is given it starts dispatching the same action until
+//! It starts dispatching a new action until a new action  (i.e direction)
+//! is given with yield put({type:.....payload:params.payload})
+//! once action is dispatched we need to se disallowed direction
+//! in the opposite direction to avoid snake biting itself
+
 export function* moveSaga(params: {
-  //! moveSaga executes inside an infinite loop
-  type: string //! Once a direction is given it starts dispatching the same action until
-  payload: ISnakeCoord //! It starts dispatching a new action until a new action  (i.e direction)
+  type: string
+  payload: ISnakeCoord
 }): Generator<
-  //! is given with yield put({type:.....payload:params.payload})
   | PutEffect<{ type: string; payload: ISnakeCoord }>
-  | PutEffect<{ type: string; payload: string }> //! once action is dispatched we need to se disallowed direction
-  | CallEffect<true> //! in the opposite direction to avoid snake biting itself
+  | PutEffect<{ type: string; payload: string }>
+  | CallEffect<true>
 > {
   while (params.type !== RESET && params.type !== STOP_GAME) {
     yield put({

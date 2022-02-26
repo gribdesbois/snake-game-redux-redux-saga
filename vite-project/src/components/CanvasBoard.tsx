@@ -90,6 +90,16 @@ const CanvasBoard = ({ height, width }: ICanvasBoard) => {
     drawObject(context, [pos], '#676FA3') //Draws fruit randomly
   }, [context])
 
+  //! Snake movements
+  useEffect(() => {
+    window.addEventListener('keypress', handleKeyEvents)
+
+    //cleanup
+    return () => {
+      window.removeEventListener('keypress', handleKeyEvents)
+    }
+  }, [disallowedDirection, handleKeyEvents])
+
   return (
     <canvas
       ref={canvasRef}
