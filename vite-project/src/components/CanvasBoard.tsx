@@ -10,6 +10,9 @@ import {
   DOWN,
   makeMove,
   MOVE_LEFT,
+  increaseSnake,
+  scoreUpdates,
+  INCREMENT_SCORE,
 } from '../store/actions'
 import { IGlobalState } from '../store/reducers'
 import {
@@ -35,6 +38,7 @@ const CanvasBoard = ({ height, width }: ICanvasBoard) => {
   const disallowedDirection = useSelector(
     (state: IGlobalState) => state.disallowedDirection
   )
+  const [isConsumed, setIsConsumed] = useState<boolean>(false)
 
   const moveSnake = useCallback(
     (dx = 0, dy = 0, ds: string) => {
@@ -89,12 +93,32 @@ const CanvasBoard = ({ height, width }: ICanvasBoard) => {
   )
 
   useEffect(() => {
+    //Generate new object
+    if (isConsumed) {
+      const posi = generateRandomPosition(width - 20, height - 20)
+      setPos(posi)
+      setIsConsumed(false)
+
+      //Increase snake size when object is consumed successfully
+      dispatch(increaseSnake())
+
+      //Increment the score
+      dispatch(scoreUpdates(INCREMENT_SCORE))
+    }
+  }, [isConsumed, pos, height, width, dispatch])
+
+  useEffect(() => {
     //Draw on canvas each time
     setContext(canvasRef.current && canvasRef.current.getContext('2d')) // store in state variable
     clearBoard(context)
     drawObject(context, snake1, '#91C483') //Draws snake at required position
     drawObject(context, [pos], '#676FA3') //Draws fruit randomly
-  }, [context])
+
+    //When the object is consumed
+    if (snake1[0].x === pos?.x && snake1[0].y === pos?.y) {
+      setIsConsumed(true)
+    }
+  }, [context, pos, snake1, height, width, dispatch, handleKeyEvents])
 
   //! Snake movements
   useEffect(() => {

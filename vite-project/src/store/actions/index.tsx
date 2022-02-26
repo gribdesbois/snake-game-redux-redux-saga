@@ -40,6 +40,7 @@ export const stopGame = () => ({
 })
 
 export const increaseSnake = () => ({
+  // action creator
   type: INCREASE_SNAKE,
 })
 
