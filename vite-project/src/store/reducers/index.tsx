@@ -6,15 +6,13 @@ import {
   SET_DIS_DIRECTION,
   INCREASE_SNAKE,
   INCREMENT_SCORE,
+  ISnakeCoord,
 } from '../actions'
 
 const GlobalState = {
   data: '',
 }
-interface ISnakeCoord {
-  x: number
-  y: number
-}
+
 export interface IGlobalState {
   snake: ISnakeCoord[] | []
   disallowedDirection: string

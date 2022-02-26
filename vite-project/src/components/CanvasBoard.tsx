@@ -13,6 +13,7 @@ import {
   increaseSnake,
   scoreUpdates,
   INCREMENT_SCORE,
+  stopGame,
 } from '../store/actions'
 import { IGlobalState } from '../store/reducers'
 import {
@@ -20,6 +21,7 @@ import {
   clearBoard,
   generateRandomPosition,
   IObjectBody,
+  hasSnakeCollided,
 } from './../utils'
 
 export interface ICanvasBoard {
@@ -29,16 +31,21 @@ export interface ICanvasBoard {
 
 const CanvasBoard = ({ height, width }: ICanvasBoard) => {
   const snake1 = useSelector((state: IGlobalState) => state.snake)
+
   const dispatch = useDispatch()
+
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
+
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
   const [pos, setPos] = useState<IObjectBody>(
     generateRandomPosition(width - 20, height - 20)
   )
+  const [isConsumed, setIsConsumed] = useState<boolean>(false)
+  const [gameEnded, setGameEnded] = useState<boolean>(false)
+
   const disallowedDirection = useSelector(
     (state: IGlobalState) => state.disallowedDirection
   )
-  const [isConsumed, setIsConsumed] = useState<boolean>(false)
 
   const moveSnake = useCallback(
     (dx = 0, dy = 0, ds: string) => {
@@ -118,6 +125,20 @@ const CanvasBoard = ({ height, width }: ICanvasBoard) => {
     if (snake1[0].x === pos?.x && snake1[0].y === pos?.y) {
       setIsConsumed(true)
     }
+
+    if (
+      //checks if the snake has collided with itself
+      hasSnakeCollided(snake1, snake1[0]) ||
+      //checks if the snake head is out of the boundaries of the box
+      snake1[0].x >= width ||
+      snake1[0].x <= 0 ||
+      snake1[0].y <= 0 ||
+      snake1[0].y >= height
+    ) {
+      setGameEnded(true)
+      dispatch(stopGame())
+      window.removeEventListener('keypress', handleKeyEvents)
+    } else setGameEnded(false)
   }, [context, pos, snake1, height, width, dispatch, handleKeyEvents])
 
   //! Snake movements
