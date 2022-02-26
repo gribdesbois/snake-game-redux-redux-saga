@@ -12,7 +12,12 @@ import {
   MOVE_LEFT,
 } from '../store/actions'
 import { IGlobalState } from '../store/reducers'
-import { drawObject, generateRandomPosition, IObjectBody } from './../utils'
+import {
+  drawObject,
+  clearBoard,
+  generateRandomPosition,
+  IObjectBody,
+} from './../utils'
 
 export interface ICanvasBoard {
   height: number
@@ -41,11 +46,11 @@ const CanvasBoard = ({ height, width }: ICanvasBoard) => {
         dispatch(makeMove(dx, dy, MOVE_LEFT))
       }
 
-      if (dx < 0 && dy === 0 && ds !== UP) {
+      if (dx === 0 && dy < 0 && ds !== UP) {
         dispatch(makeMove(dx, dy, MOVE_UP))
       }
 
-      if (dx < 0 && dy === 0 && ds !== DOWN) {
+      if (dx === 0 && dy > 0 && ds !== DOWN) {
         dispatch(makeMove(dx, dy, MOVE_DOWN))
       }
     },
@@ -75,7 +80,7 @@ const CanvasBoard = ({ height, width }: ICanvasBoard) => {
           disallowedDirection !== 'LEFT' &&
           disallowedDirection !== 'UP' &&
           disallowedDirection !== 'DOWN' &&
-          disallowedDirection !== 'd'
+          event.key === 'd'
         )
           moveSnake(20, 0, disallowedDirection) // Move RIGHT at start
       }
@@ -86,6 +91,7 @@ const CanvasBoard = ({ height, width }: ICanvasBoard) => {
   useEffect(() => {
     //Draw on canvas each time
     setContext(canvasRef.current && canvasRef.current.getContext('2d')) // store in state variable
+    clearBoard(context)
     drawObject(context, snake1, '#91C483') //Draws snake at required position
     drawObject(context, [pos], '#676FA3') //Draws fruit randomly
   }, [context])
