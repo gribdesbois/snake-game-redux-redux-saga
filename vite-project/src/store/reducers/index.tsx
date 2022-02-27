@@ -2,7 +2,9 @@ import {
   DOWN,
   UP,
   LEFT,
+  RESET,
   RIGHT,
+  RESET_SCORE,
   SET_DIS_DIRECTION,
   INCREASE_SNAKE,
   INCREMENT_SCORE,
@@ -55,6 +57,18 @@ const gameReducer = (state = globalState, action: any) => {
     }
     case SET_DIS_DIRECTION:
       return { ...state, disallowedDirection: action.payload }
+    case RESET:
+      return {
+        ...state,
+        snake: [
+          { x: 580, y: 300 },
+          { x: 560, y: 300 },
+          { x: 540, y: 300 },
+          { x: 520, y: 300 },
+          { x: 500, y: 300 },
+        ],
+        disallowedDirection: '',
+      }
     case INCREASE_SNAKE:
       const snakeLen = state.snake.length
       return {
@@ -67,6 +81,8 @@ const gameReducer = (state = globalState, action: any) => {
           },
         ],
       }
+    case RESET_SCORE:
+      return { ...state, score: 0 }
     case INCREMENT_SCORE:
       return {
         ...state,
