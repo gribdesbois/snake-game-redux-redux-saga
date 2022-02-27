@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Instruction from './Instructions'
 import {
   MOVE_RIGHT,
   MOVE_UP,
@@ -168,12 +169,15 @@ const CanvasBoard = ({ height, width }: ICanvasBoard) => {
   }, [disallowedDirection, handleKeyEvents])
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{ border: '3px solid black' }}
-      height={height}
-      width={width}
-    />
+    <>
+      <canvas
+        ref={canvasRef}
+        style={{ border: `3px solid ${gameEnded ? 'red' : 'black'}` }}
+        height={height}
+        width={width}
+      />
+      <Instruction resetBoard={resetBoard} />
+    </>
   )
 }
 
